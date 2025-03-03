@@ -1,6 +1,5 @@
-from Database.database import Repository
+from Database.Repository import Repository
 from Entities.Transaction import Transaction
-
 
 
 class Service:
@@ -9,16 +8,17 @@ class Service:
         self.repository = repository if repository else Repository()
 
     # Metodă pentru a adăuga o tranzacție
-    def add_transaction(self, transaction):
-        # Validare și logică suplimentară înainte de adăugare, dacă e necesar
+    def add_transaction(self, user_id, transaction):
+        # Validare și logică suplimentară înainte de adăugare
         if transaction.get_amount() <= 0:
             raise ValueError("Suma tranzacției trebuie să fie pozitivă.")
 
-        self.repository.add_transaction(transaction)
+        transaction.set_user_id(user_id)  # Setăm user_id pentru tranzacție
+        self.repository.add_transaction(user_id, transaction)
 
-    # Metodă pentru a obține toate tranzacțiile
-    def get_all_transactions(self):
-        return self.repository.get_all_transactions()
+    # Metodă pentru a obține toate tranzacțiile ale unui utilizator
+    def get_all_transactions_by_user(self, user_id):
+        return self.repository.get_all_transactions_by_user(user_id)
 
     # Metodă pentru a obține o tranzacție specifică după ID
     def get_transaction_by_id(self, transaction_id):
@@ -45,13 +45,4 @@ class Service:
 
         self.repository.delete_transaction(transaction_id)
 
-# transactions = []
-# def add_transactions(uid, date, amount, category, description, transaction_type):
-#     transaction = Transaction(uid, date, amount, category, description, transaction_type)
-#     transactions.append(transaction)
-#
-# def get_balace():
-#     income = sum(t.amount for t in transactions if t.get_transaction_type() == "income")
-#     expenses = sum(t.amount for t in transactions if t.get_transaction_type() == "expenses")
-#     return income-expenses
 

@@ -1,131 +1,81 @@
 import sqlite3
 
-import sqlite3
-
-
-class Repository:
-    def __init__(self, db_name='finance.db'):
+class Database:
+    def __init__(self, db_name="finance.db"):
         self.db_name = db_name
-        self.setup_database()
+        self.create_tables()
 
-    # Configurare și creare tabele necesare
-    def setup_database(self):
-        conn = sqlite3.connect(self.db_name)
+    def connect(self):
+        return sqlite3.connect(self.db_name)
+
+    def execute_query(self, query, params=()):
+        """Execută o interogare care modifică baza de date (INSERT, UPDATE, DELETE)."""
+        conn = self.connect()
         cursor = conn.cursor()
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS transactions(
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                date TEXT,
-                amount REAL,
-                category TEXT,
-                description TEXT,
-                transaction_type TEXT
-            )
-        ''')
+        cursor.execute(query, params)
         conn.commit()
         conn.close()
 
-    # Adăugare tranzacție în baza de date
-    def add_transaction(self, transaction):
-        conn = sqlite3.connect(self.db_name)
+    def fetch_one(self, query, params=()):
+        """Execută o interogare și returnează un singur rezultat."""
+        conn = self.connect()
         cursor = conn.cursor()
-
-        cursor.execute('''
-            INSERT INTO transactions (date, amount, category, description, transaction_type)
-            VALUES (?, ?, ?, ?, ?)
-        ''', (transaction.get_date(), transaction.get_amount(), transaction.get_category(),
-              transaction.get_description(), transaction.get_transaction_type()))
-
-        conn.commit()
+        cursor.execute(query, params)
+        result = cursor.fetchone()
         conn.close()
+        return result
 
-    # Obținere toate tranzacțiile
-    def get_all_transactions(self):
-        conn = sqlite3.connect(self.db_name)
+    def fetch_all(self, query, params=()):
+        """Execută o interogare și returnează toate rezultatele."""
+        conn = self.connect()
         cursor = conn.cursor()
-
-        cursor.execute('SELECT * FROM transactions')
-        transactions = cursor.fetchall()
-
+        cursor.execute(query, params)
+        result = cursor.fetchall()
         conn.close()
-        return transactions
+        return result
 
-    # Obținere tranzacție după ID
+    def create_tables(self):
+        """Creează tabelele necesare (users și transactions)."""
+        query_users = """
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE NOT NULL,
+            password BLOB NOT NULL
+        )
+        """
+        self.execute_query(query_users)
+
+        query_transactions = """
+        CREATE TABLE IF NOT EXISTS transactions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            date TEXT,
+            amount REAL,
+            category TEXT,
+            description TEXT,
+            transaction_type TEXT,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        )
+        """
+        self.execute_query(query_transactions)
+
+    # Adăugare tranzacție
+    def add_transaction(self, user_id, transaction):
+        query = """
+        INSERT INTO transactions (user_id, date, amount, category, description, transaction_type)
+        VALUES (?, ?, ?, ?, ?, ?)
+        """
+        self.execute_query(query, (user_id, transaction.get_date(), transaction.get_amount(),
+                                   transaction.get_category(), transaction.get_description(),
+                                   transaction.get_transaction_type()))
+
+    # Obținere tranzacții după user_id
+    def get_all_transactions_by_user(self, user_id):
+        query = "SELECT * FROM transactions WHERE user_id = ?"
+        return self.fetch_all(query, (user_id,))
+
+    # Metodă pentru a obține tranzacția după ID
     def get_transaction_by_id(self, transaction_id):
-        conn = sqlite3.connect(self.db_name)
-        cursor = conn.cursor()
-
-        cursor.execute('SELECT * FROM transactions WHERE id = ?', (transaction_id,))
-        transaction = cursor.fetchone()
-
-        conn.close()
-        return transaction
-
-    # Actualizare tranzacție
-    def update_transaction(self, transaction_id, updated_transaction):
-        conn = sqlite3.connect(self.db_name)
-        cursor = conn.cursor()
-
-        cursor.execute('''
-            UPDATE transactions
-            SET date = ?, amount = ?, category = ?, description = ?, transaction_type = ?
-            WHERE id = ?
-        ''', (updated_transaction.get_date(), updated_transaction.get_amount(),
-              updated_transaction.get_category(), updated_transaction.get_description(),
-              updated_transaction.get_transaction_type(), transaction_id))
-
-        conn.commit()
-        conn.close()
-
-    # Ștergere tranzacție după ID
-    def delete_transaction(self, transaction_id):
-        conn = sqlite3.connect(self.db_name)
-        cursor = conn.cursor()
-
-        cursor.execute('DELETE FROM transactions WHERE id = ?', (transaction_id,))
-
-        conn.commit()
-        conn.close()
-
-
-# def setup_database():
-#     conn = sqlite3.connect('finance.db')
-#     cursor = conn.cursor()
-#     cursor.execute('''
-#         CREATE TABLE IF NOT EXISTS transactions(
-#             id INTEGER PRIMARY KEY AUTOINCREMENT,
-#             date TEXT,
-#             amount REAL,
-#             category TEXT,
-#             description TEXT,
-#             transaction_type TEXT
-#         )
-#     ''')
-#     conn.commit()
-#     conn.close()
-#
-#
-# def add_to_db(transaction):
-#     conn = sqlite3.connect('finance.db')
-#     cursor = conn.cursor()
-#
-#     # Inserarea tranzactiei in baza de date
-#     cursor.execute('''
-#         INSERT INTO transactions (date,amount,category, description,transactoin_type)
-#         VALUES (?,?,?,?,?)
-#     ''', (transaction.get_date(), transaction.get_amount(), transaction.get_category(), transaction.get_description(), transaction.get_transaction_type()))
-#     conn.commit()
-#     conn.close()
-#
-# def get_all_transaction():
-#     conn = sqlite3.connect('finance.db')
-#     cursor = conn.cursor()
-#
-#     #Obtinerea tuturor tranzactiilor
-#
-#     cursor.execute('SELECT * FROM transactions')
-#     transactions = cursor.fetchall()
-#
-#     conn.close()
-#     return transactions
-#
+        """Obține tranzacția pe baza ID-ului."""
+        query = "SELECT * FROM transactions WHERE id = ?"
+        return self.fetch_one(query, (transaction_id,))
