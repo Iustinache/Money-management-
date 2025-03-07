@@ -2,7 +2,7 @@
 Pentru a construi o aplicație de gestionare a finanțelor personale care să fie utilă și intuitivă pentru utilizatori, ar trebui să te concentrezi pe funcționalități esențiale care să le permită să își gestioneze eficient veniturile, cheltuielile și bugetele. Iată ce ar trebui să conțină aplicația din perspectiva utilizatorului:
 
 1. Autentificare și cont de utilizator
-Înregistrare și autentificare: Utilizatorul trebuie să poată crea un cont, să se autentifice în aplicație și să aibă opțiuni pentru recuperarea parolei.
+Înregistrare și autentificare: Utilizatorul trebuie să poată crea un cont și să se autentifice în aplicație.
 Securitate: Opțiuni de autentificare cu doi factori (2FA) pentru o securitate sporită.
 Profil de utilizator: Utilizatorul să își poată gestiona informațiile personale și setările din aplicație.
 2. Dashboard de utilizator
@@ -37,14 +37,3 @@ Gestionarea mai multor conturi: Posibilitatea de a adăuga mai multe surse de ve
 8. Protecția datelor și securitate
 Backup și restaurare date: Opțiunea de a salva datele într-un cloud securizat și de a le restaura în caz de nevoie.
 Politica de confidențialitate și securitatea datelor: Afișarea clară a politicii de confidențialitate și securizarea datelor utilizatorului (inclusiv criptarea datelor sensibile).
-9. Personalizare și setări
-Setări ale aplicației: Utilizatorul să își poată ajusta setările (tema de culori, moneda utilizată, limba).
-Mod dark/light: Oferă opțiunea de a schimba între moduri de afișare (dark mode și light mode).
-Monede multiple: Posibilitatea de a lucra cu diferite valute, mai ales dacă utilizatorul are tranzacții internaționale.
-10. Tutorial și asistență
-Ghid pentru utilizator: Un tutorial inițial sau o secțiune de asistență care să îi ghideze pe utilizatori prin funcțiile aplicației.
-Asistență: Un loc unde utilizatorii pot raporta probleme sau primi ajutor în utilizarea aplicației.
-11. Gamificare și motivație (opțional)
-Recompense și provocări: Încurajează economisirea sau gestionarea responsabilă a cheltuielilor prin oferirea de "badges" sau provocări (ex: "economisește 10% din venituri luna aceasta").
-Obiective de economisire: Utilizatorul poate seta obiective și primește notificări când este aproape de atingerea acestora.
-Aceste funcționalități vor oferi utilizatorilor o aplicație completă, intuitivă și eficientă pentru a-și gestiona finanțele personale, ajutându-i să își monitorizeze mai bine veniturile, cheltuielile și să își atingă obiectivele financiare.
