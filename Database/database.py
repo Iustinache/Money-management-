@@ -79,3 +79,8 @@ class Database:
         """Obține tranzacția pe baza ID-ului."""
         query = "SELECT * FROM transactions WHERE id = ?"
         return self.fetch_one(query, (transaction_id,))
+
+    def delete_transaction(self, transaction_id):
+        """Șterge tranzacția pe baza ID-ului."""
+        query = "DELETE FROM transactions WHERE id = ?"
+        self.execute_query(query, (transaction_id,))

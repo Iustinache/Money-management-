@@ -34,6 +34,8 @@ class LoginScreen:
         self.signup_button = ttk.Button(self.frame, text="Create New Account", command=self.create_account)
         self.signup_button.pack(pady=10)
 
+        self.exit_button = ttk.Button(self.frame, text="Exit", command=self.exit_application)
+
     def login(self):
         username = self.username_entry.get()
         password = self.password_entry.get()
@@ -41,18 +43,22 @@ class LoginScreen:
         user_id = self.authenticate(username, password)
         if user_id:
             messagebox.showinfo("Success", "Login successful!")
-            self.root.destroy()
-            open_financial_app(user_id)  # ✅ Pass user_id
+            self.root.withdraw()  # Ascunde fereastra de login
+            open_financial_app(user_id, self.show)  # Deschide FinancialApp cu callback
         else:
             messagebox.showerror("Error", "Invalid username or password")
 
+    def show(self):
+        """Afișează fereastra de login."""
+        self.root.deiconify()  # Reafișează fereastra de login
+
     def authenticate(self, username, password):
-        """ Verifică dacă username-ul și parola sunt corecte și returnează user_id """
+        """Verifică dacă username-ul și parola sunt corecte și returnează user_id."""
         user = self.db.fetch_one("SELECT id, password FROM users WHERE username = ?", (username,))
         if user:
             user_id, stored_password = user
             if bcrypt.checkpw(password.encode("utf-8"), stored_password):
-                return user_id  # ✅ Return user_id
+                return user_id  # Returnează user_id
         return None
 
     def create_account(self):
@@ -87,19 +93,23 @@ class LoginScreen:
         submit_button.pack(pady=20)
 
     def username_exists(self, username):
-        """ Verifică dacă username-ul există deja în baza de date """
+        """Verifică dacă username-ul există deja în baza de date."""
         user = self.db.fetch_one("SELECT * FROM users WHERE username = ?", (username,))
         return user is not None
 
     def create_new_user(self, username, password):
-        """ Creează un utilizator nou cu parolă hashuită """
+        """Creează un utilizator nou cu parolă hashuită."""
         hashed_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
         self.db.execute_query("INSERT INTO users (username, password) VALUES (?, ?)", (username, hashed_password))
 
-def open_financial_app(user_id):
+    def exit_application(self):
+        exit(0)
+
+
+def open_financial_app(user_id, open_login_callback):
     root = tk.Tk()
     service = Service(Database())
-    FinancialApp(root, service, user_id)
+    FinancialApp(root, service, user_id, open_login_callback)
     root.mainloop()
 
 

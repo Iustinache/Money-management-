@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from Database.Repository import Repository
 from Entities.Transaction import Transaction
 
@@ -44,5 +46,61 @@ class Service:
             raise ValueError("Tranzacția nu există și nu poate fi ștearsă.")
 
         self.repository.delete_transaction(transaction_id)
+
+    def get_financial_summary(self, user_id):
+        transactions = self.repository.get_all_transactions_by_user(user_id)
+        total_income = sum(t[3] for t in transactions if t[6] == "income")
+        total_expenses = sum(t[3] for t in transactions if t[6] == "expense")
+        available_budget = total_income - total_expenses
+        return {
+            "total_income": total_income,
+            "total_expenses": total_expenses,
+            "available_budget": available_budget
+        }
+
+    def get_monthly_summary(self, user_id):
+        transactions = self.repository.get_all_transactions_by_user(user_id)
+        current_month = datetime.now().month
+        current_year = datetime.now().year
+
+        monthly_income = sum(t[3] for t in transactions if t[6] == "income" and datetime.strptime(t[2],
+                                                                                                  "%Y-%m-%d").month == current_month and datetime.strptime(
+            t[2], "%Y-%m-%d").year == current_year)
+        monthly_expenses = sum(t[3] for t in transactions if t[6] == "expense" and datetime.strptime(t[2],
+                                                                                                     "%Y-%m-%d").month == current_month and datetime.strptime(
+            t[2], "%Y-%m-%d").year == current_year)
+
+        return {
+            "monthly_income": monthly_income,
+            "monthly_expenses": monthly_expenses
+        }
+
+    def get_category_spending(self, user_id):
+        transactions = self.repository.get_all_transactions_by_user(user_id)
+        categories = {}
+        for t in transactions:
+            if t[6] == "expense":
+                category = t[4]
+                amount = t[3]
+                if category in categories:
+                    categories[category] += amount
+                else:
+                    categories[category] = amount
+        return categories
+
+    def get_income_expense_trend(self, user_id):
+        transactions = self.repository.get_all_transactions_by_user(user_id)
+        trend = {}
+        for t in transactions:
+            date = datetime.strptime(t[2], "%Y-%m-%d").strftime("%Y-%m")
+            if date not in trend:
+                trend[date] = {"income": 0, "expense": 0}
+            if t[6] == "income":
+                trend[date]["income"] += t[3]
+            else:
+                trend[date]["expense"] += t[3]
+        return trend
+
+
 
 
