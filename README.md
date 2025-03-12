@@ -22,18 +22,6 @@ Categorii personalizabile: Utilizatorii să poată crea și modifica propriile c
 Setarea bugetelor: Utilizatorii ar trebui să își poată seta bugete lunare sau pe categorii (ex: să aloce o sumă maximă pentru "Transport" sau "Divertisment").
 Notificări pentru depășirea bugetelor: Alerte sau notificări când utilizatorul depășește un buget prestabilit.
 Obiective financiare: Utilizatorii pot seta obiective pe termen scurt sau lung (ex: economisirea unei sume pentru vacanță).
-5. Raportare și analiză
+5. Raportare și analiză (ongoing)
 Generare de rapoarte: Posibilitatea de a genera rapoarte pentru anumite perioade (zilnic, săptămânal, lunar) care să arate veniturile și cheltuielile detaliate.
 Export date: Opțiunea de a exporta datele financiare în formate precum Excel sau PDF pentru o analiză externă.
-6. Notificări și mementouri
-Notificări personalizate: Alerte automate pentru diverse acțiuni:
-Apropierea unei scadențe de plată.
-Depășirea bugetului pe o categorie.
-Mementouri pentru plăți recurente (ex: facturi).
-Recomandări financiare: Sugerarea unor moduri de economisire pe baza istoricului tranzacțiilor și cheltuielilor utilizatorului.
-7. Integrare cu conturi bancare (opțional)
-Sincronizare automată a tranzacțiilor: Dacă este posibil, poți permite utilizatorilor să își conecteze conturile bancare pentru a sincroniza automat tranzacțiile financiare.
-Gestionarea mai multor conturi: Posibilitatea de a adăuga mai multe surse de venit sau conturi bancare (ex: economii, salariu, investiții).
-8. Protecția datelor și securitate
-Backup și restaurare date: Opțiunea de a salva datele într-un cloud securizat și de a le restaura în caz de nevoie.
-Politica de confidențialitate și securitatea datelor: Afișarea clară a politicii de confidențialitate și securizarea datelor utilizatorului (inclusiv criptarea datelor sensibile).
