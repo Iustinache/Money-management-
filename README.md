@@ -1,5 +1,5 @@
 # Money-management-
-Pentru a construi o aplicație de gestionare a finanțelor personale care să fie utilă și intuitivă pentru utilizatori, ar trebui să te concentrezi pe funcționalități esențiale care să le permită să își gestioneze eficient veniturile, cheltuielile și bugetele. Iată ce ar trebui să conțină aplicația din perspectiva utilizatorului:
+To do:
 
 1. Autentificare și cont de utilizator
 Înregistrare și autentificare: Utilizatorul trebuie să poată crea un cont și să se autentifice în aplicație.
