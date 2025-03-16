@@ -21,7 +21,6 @@ Categorii personalizabile: Utilizatorii să poată crea și modifica propriile c
 4. Bugetare și urmărirea obiectivelor
 Setarea bugetelor: Utilizatorii ar trebui să își poată seta bugete lunare sau pe categorii (ex: să aloce o sumă maximă pentru "Transport" sau "Divertisment").
 Notificări pentru depășirea bugetelor: Alerte sau notificări când utilizatorul depășește un buget prestabilit.
-Obiective financiare: Utilizatorii pot seta obiective pe termen scurt sau lung (ex: economisirea unei sume pentru vacanță).
+Obiective financiare: Utilizatorii pot seta obiective pe termen scurt sau lung (ex: economisirea unei sume pentru vacanță)(ongoing).
 5. Raportare și analiză (ongoing)
 Generare de rapoarte: Posibilitatea de a genera rapoarte pentru anumite perioade (zilnic, săptămânal, lunar) care să arate veniturile și cheltuielile detaliate.
-Export date: Opțiunea de a exporta datele financiare în formate precum Excel sau PDF pentru o analiză externă.
